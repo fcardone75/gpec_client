@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: gpec-library
+    ports:
+      - "${PHP_PORT:-8005}:80"
+    volumes:
+      - "./:/var/www/html"
+  test:
+    image: fc75/gpec_client
+    ports:
+      - "8009:80"

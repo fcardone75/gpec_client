@@ -1,0 +1,23 @@
+# Use the official PHP image as the base image
+FROM php:8.2-apache
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    libxml2-dev \
+    libxslt-dev \
+    libzip-dev \
+    pkg-config \
+    telnet \
+    unzip \
+    wget \
+    && docker-php-ext-install bcmath intl pdo_mysql soap xsl zip
+
+# Enable Apache mod_rewrite
+RUN a2enmod rewrite
+
+# Install Composer globally
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Set the working directory
+WORKDIR /var/www/html
